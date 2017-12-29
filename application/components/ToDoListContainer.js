@@ -1,6 +1,8 @@
 import styles from '../styles/styles'
 import ToDoList from './ToDoList';
 import ToDoEdit from './ToDoEdit';
+import NewPage from './NewPage';
+import BasicConcept from './BasicConcept';
 import React from 'react';
 import { Text, View, ListView, TouchableHighlight, AlertIOS } from 'react-native';
 
@@ -17,7 +19,8 @@ class ToDoContainer extends React.Component {
         this.deleteItem = this.deleteItem.bind(this);
         this.updateItem = this.updateItem.bind(this);
         this.openItem = this.openItem.bind(this);
-
+        this.openNew = this.openNew.bind(this);
+        this.openBasic = this.openBasic.bind(this);
     }
 
     alertMenu(rowData, rowID) {
@@ -58,6 +61,22 @@ class ToDoContainer extends React.Component {
         });
     }
 
+    openNew(rowData, rowID) {
+        this.props.navigator.push({
+            title: rowData && rowData.txt || '新建任务',
+            component: NewPage,
+            passProps: {item: rowData, id: rowID, update: this.updateItem}
+        });
+    }
+
+    openBasic(rowData, rowID) {
+        this.props.navigator.push({
+            //title: "基础概念",
+            component: BasicConcept
+            //passProps: {item: rowData, id: rowID, update: this.updateItem}
+        });
+    }
+
     render() {
         return (
             <View style={{flex:1}}>
@@ -70,6 +89,23 @@ class ToDoContainer extends React.Component {
                     underlayColor='#99d9f4'
                     onPress={this.openItem}>
                     <Text style={styles.buttonText}>+</Text>
+                </TouchableHighlight>
+                
+
+                <Text/>
+                <TouchableHighlight
+                    style={[styles.button, styles.newButton]}
+                    underlayColor='#99d9f4'
+                    onPress={this.openNew}>
+                    <Text style={styles.buttonText}>New Page</Text>
+                </TouchableHighlight>
+
+                <Text/>
+                <TouchableHighlight
+                    style={[styles.button, styles.newButton]}
+                    underlayColor='#99d9f4'
+                    onPress={this.openBasic}>
+                    <Text style={styles.buttonText}>Basic Conception</Text>
                 </TouchableHighlight>
             </View>
         );
